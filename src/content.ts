@@ -33,6 +33,7 @@ export const experience = [
       "Built Census, a serverless office attendance pipeline on S3 and Athena, with an MCP server so Claude can query it.",
       "Designed an append-only, bitemporal Postgres store for HR analytics in Atlas, with PII tokenised and every read of personal data audited.",
       "Own the Terraform for the People AWS accounts: ECS Fargate, Aurora Postgres, private access over Zscaler ZPA, Entra ID to Auth0 SSO.",
+      "Automated payroll and workforce reporting for People Operations, saving 5,000+ hours.",
     ],
   },
   {

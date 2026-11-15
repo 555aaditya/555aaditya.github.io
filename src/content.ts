@@ -3,7 +3,7 @@
 export const profile = {
   name: "Aaditya Sinha",
   title: "Software engineer. Backend, data and infrastructure.",
-  location: "Chandigarh, India",
+  location: "Gurugram, India",
   about:
     "I build backend systems, data pipelines and the cloud infrastructure under them. At OakNorth I'm a forward deployed engineer in the People team, owning four internal products end to end, from React to FastAPI to Terraform on AWS. Outside work I contribute to open source and build Svetra.",
   email: "555aaditya@proton.me",

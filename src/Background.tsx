@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-// Film grain over a slow drifting light, drawn behind the page in one fragment shader.
+// Film grain that drifts slowly around the page sides, drawn in one fragment shader.
 const frag = `
 precision highp float;
 uniform vec2 r;
@@ -23,12 +23,13 @@ float fbm(vec2 p) {
 
 void main() {
   vec2 uv = gl_FragCoord.xy / r.y;
-  float s = t * 0.025;
-  vec2 q = vec2(fbm(uv * 1.4 + s), fbm(uv * 1.4 - s + 4.0));
-  float light = smoothstep(0.3, 0.8, fbm(uv * 1.1 + q * 1.8 + vec2(s * 0.5, -s)));
-  float grain = h(gl_FragCoord.xy + mod(floor(t * 24.0), 97.0) * vec2(13.1, 7.7)) - 0.5;
-  vec3 c = vec3(0.071, 0.071, 0.082) + light * vec3(0.08, 0.09, 0.13) + grain * 0.04;
-  gl_FragColor = vec4(c, 1.0);
+  float s = t * 0.03;
+  // A slow, swirling offset field: the grain pattern is fixed and this field moves it around.
+  vec2 flow = vec2(fbm(uv * 1.3 + s), fbm(uv * 1.3 + vec2(5.2, 1.3) - s)) - 0.5;
+  float grain = h(floor(gl_FragCoord.xy + flow * 220.0 + vec2(t * 3.0, t * 1.5))) - 0.5;
+  // Grain is a little stronger in some patches, so the field reads as moving.
+  float amp = 0.05 + 0.05 * smoothstep(0.35, 0.75, fbm(uv * 0.9 - s * 0.5));
+  gl_FragColor = vec4(vec3(0.071, 0.071, 0.082) + grain * amp, 1.0);
 }`;
 
 const vert = "attribute vec2 p; void main() { gl_Position = vec4(p, 0.0, 1.0); }";
